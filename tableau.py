@@ -274,7 +274,7 @@ def _expand_existential(fmla, branch, queue):
 
 
 def sat(tableau):
-    branch_clear = False
+    open_found = False
     undetermined = False
     while tableau:
         branch = tableau.pop()
@@ -405,9 +405,9 @@ def sat(tableau):
             branch['formulas'].extend(new_formulas)
         if not _closed(branch):
             if all(_is_literal(f) or f in branch['expanded'] for f in branch['formulas']):
-                branch_clear = True
+                open_found = True
                 break
-    if branch_clear:
+    if open_found:
         return 1
     if undetermined:
         return 2

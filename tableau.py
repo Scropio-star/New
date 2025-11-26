@@ -31,10 +31,8 @@ def _find_main_connective(fmla):
             i += 1
             continue
         if depth == 1:
-            if ch == '&':
-                return i
-            if ch == '\\':
-                if i + 1 < len(fmla) and fmla[i + 1] == '/':
+            if ch == '&' or ch == '\\':
+                if ch == '\\' and i + 1 < len(fmla) and fmla[i + 1] == '/':
                     return i
             if ch == '-' and i + 1 < len(fmla) and fmla[i + 1] == '>':
                 return i
@@ -415,12 +413,7 @@ def sat(tableau):
 #                                            DO NOT MODIFY THE CODE BELOW THIS LINE!                                           :
 #------------------------------------------------------------------------------------------------------------------------------:
 
-lines = []
-try:
-    while True:
-        lines.append(input())
-except EOFError:
-    pass
+f = open('input.txt')
 
 parseOutputs = ['not a formula',
                 'an atom',
@@ -436,10 +429,7 @@ satOutput = ['is not satisfiable', 'is satisfiable', 'may or may not be satisfia
 
 
 
-if not lines:
-    firstline = ''
-else:
-    firstline = lines[0]
+firstline = f.readline()
 
 PARSE = False
 if 'PARSE' in firstline:
@@ -449,7 +439,7 @@ SAT = False
 if 'SAT' in firstline:
     SAT = True
 
-for line in lines[1:]:
+for line in f:
     if line[-1] == '\n':
         line = line[:-1]
     parsed = parse(line)
